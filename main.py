@@ -62,6 +62,7 @@ def send_mastodon_toot(state: bool):
         
     message = message.format(time=datetime.now().strftime("%H:%M:%S"))
     mastodon.toot(message)
+    mastodon.status_post(message, visibility="unlisted")
 
 async def send_state_discord_message(state: bool, ctx) -> discord.Message:
     if state:
