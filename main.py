@@ -11,8 +11,9 @@ from discord.ext import commands
 from mastodon import Mastodon
 from datetime import datetime
 from models.config import ConfigFile
+from pytz import timezone
 
-config_filepath = '/data/config.json'
+config_filepath = './data/config.json'
 if len(sys.argv) > 1:
     config_filepath = sys.argv[1]
     
@@ -60,8 +61,7 @@ def send_mastodon_toot(state: bool):
     else:
         message = "Pixelbar is closed at {time}"
         
-    message = message.format(time=datetime.now().strftime("%H:%M:%S"))
-    mastodon.toot(message)
+    message = message.format(time=datetime.now(timezone('Europe/Amsterdam')).strftime("%H:%M:%S"))
     mastodon.status_post(message, visibility="unlisted")
 
 async def send_state_discord_message(state: bool, ctx) -> discord.Message:
